@@ -1,7 +1,15 @@
-import { Briefcase, HomeIcon, MessagesSquare, SearchIcon, UserIcon } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import {
+  Briefcase,
+  HomeIcon,
+  MessagesSquare,
+  SearchIcon,
+  UserIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { Button } from "./ui/button";
 
 const Header = () => {
   return (
@@ -25,30 +33,38 @@ const Header = () => {
         </form>
       </div>
 
-      <div className="">
+      <div className="flex items-center space-x-4 px-6">
         <Link href="/" className="icon">
-            <HomeIcon className="h-5" />
-            <p>Home</p>
+          <HomeIcon className="h-5" />
+          <p>Home</p>
         </Link>
 
         <Link href="/" className="icon hidden md:flex">
-            <UserIcon className="h-5" />
-            <p>Network</p>
+          <UserIcon className="h-5" />
+          <p>Network</p>
         </Link>
 
         <Link href="/" className="icon hidden md:flex">
-            <Briefcase className="h-5" />
-            <p>Jobs</p>
+          <Briefcase className="h-5" />
+          <p>Jobs</p>
         </Link>
 
         <Link href="/" className="icon hidden md:flex">
-            <MessagesSquare className="h-5" />
-            <p>Messing</p>
+          <MessagesSquare className="h-5" />
+          <p>Messing</p>
         </Link>
 
         {/* User Button id signed in */}
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
 
         {/* Sign in button if not signed in */}
+        <SignedOut>
+          <Button asChild variant="secondary">
+            <SignInButton />
+          </Button>
+        </SignedOut>
       </div>
     </div>
   );
