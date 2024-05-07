@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ImageIcon, XIcon } from "lucide-react";
+import createPostAction from "@/actions/createPostAction";
 
 const PostForm = () => {
   const ref = useRef<HTMLFormElement>(null);

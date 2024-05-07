@@ -31,8 +31,8 @@ interface IPostStatics {
 }
 
 // Merge the document methods, and static methods with IPost
-export interface IPostDocument extends IPost, IPostMethods {}
-interface IPostModel extends IPostStatics, Model<IPostDocument> {}
+export interface IPostDocument extends IPost, IPostMethods {} // IPostDocument is a singular instance of a post
+interface IPostModel extends IPostStatics, Model<IPostDocument> {} // IPostModel represent all posts
 
 const PostSchema = new Schema<IPostDocument>(
   {
@@ -116,7 +116,7 @@ PostSchema.methods.getAllComments = async function () {
     await this.populate({
       path: "comments",
 
-      options: { sort: { createdAt: -1 } },
+      options: { sort: { createdAt: -1 } }, //sort comments by newest first
     });
     return this.comments;
   } catch (error) {

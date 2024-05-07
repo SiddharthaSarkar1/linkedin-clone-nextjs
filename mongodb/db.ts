@@ -18,3 +18,5 @@ const connectDB = async () => {
     console.log("Error connecting to mongoDB", error);
   }
 };
+
+export default connectDB;
