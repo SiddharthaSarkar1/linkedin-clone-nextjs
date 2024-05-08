@@ -44,10 +44,13 @@ const PostForm = () => {
     <div className="mb-2">
       <form ref={ref} className="p-3 bg-white rounded-lg" action={formData => {
         //Handle form submission with server action
-
-
         //Toast notification based on the promise above
-
+        const promise = handlePostAction(formData);
+          // toast.promise(promise, {
+          //   loading: "Creating post...",
+          //   success: "Post created!",
+          //   error: (e) => "Error creating post: " + e.message,
+          // });
 
       }}>
         <div className="flex items-center space-x-2">

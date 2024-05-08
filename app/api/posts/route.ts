@@ -37,8 +37,9 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
-    const posts = Post.getAllPosts();
-    return NextResponse.json({ posts });
+    const posts = await Post.getAllPosts();
+    // console.log(posts);
+    return NextResponse.json(posts);
   } catch (error) {
     return NextResponse.json(
       { error: "An error occured while fetching post" },
