@@ -1,14 +1,24 @@
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { IPostDocument } from "@/mongodb/models/post";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 
-export default async function UserInformation() {
+export default async function UserInformation({ posts }: { posts: IPostDocument[] }) {
   const user = await currentUser();
 
   const firstName = user?.firstName;
   const lastName = user?.lastName;
+
+  const userPosts = posts?.filter((post) => post.user.userId === user?.id);
+
+  //  The flatMap() method creates a new array by calling a function for each element in the array and then flattening the result into a new array. It is identical to a map() followed by a flat() of depth 1, but flatMap() is often quite useful, as merging both into one method is slightly more efficient. The result of this flatMap() is a new array that contains all comments made by the current user across all posts. It's "flat" because it's a single-level array, not an array of arrays.
+  const userComments = posts.flatMap(
+    (post) =>
+      post?.comments?.filter((comment) => comment.user.userId === user?.id) ||
+      []
+  );
 
   return (
     <div className="flex flex-col justify-center items-center bg-white mr-6 rounded-lg border py-4">
@@ -51,12 +61,12 @@ export default async function UserInformation() {
 
       <div className="flex justify-between w-full px-4 text-sm">
         <p className="font-semibold text-gray-400">Posts</p>
-        <p className="text-blue-400">0</p>
+        <p className="text-blue-400">{userPosts.length}</p>
       </div>
 
       <div className="flex justify-between w-full px-4 text-sm">
         <p className="font-semibold text-gray-400">Comments</p>
-        <p className="text-blue-400">0</p>
+        <p className="text-blue-400">{userComments.length}</p>
       </div>
     </div>
   );
