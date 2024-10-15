@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     await connectDB();
     auth().protect(); //Protect the route with clerk authentication
     const { user, text, imageUrl }: AddPostRequestBody = await request.json();
-
+    console.log(user, text, imageUrl);
     const postData: IPostBase = {
       user,
       text,
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     };
 
     const post = await Post.create(postData);
-    return NextResponse.json({ message: "Post create d successfully", post });
+    return NextResponse.json({ message: "Post created successfully", post });
   } catch (error) {
     return NextResponse.json(
       { error: `An error occured while fetching post ${error}` },

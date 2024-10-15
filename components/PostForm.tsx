@@ -12,10 +12,16 @@ const PostForm = () => {
   const { user } = useUser();
 
   const [preview, setPreview] = useState<string | null>(null);
+  const [img, setImg] = useState<string | ArrayBuffer | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImg(reader.result);
+      };
+      reader.readAsDataURL(file);
       setPreview(URL.createObjectURL(file));
     }
   };
@@ -32,7 +38,12 @@ const PostForm = () => {
     setPreview(null)
 
     try {
-      await createPostAction(formDataCopy);
+      if(typeof(img) === 'string'){
+        await createPostAction(formDataCopy, img);
+
+      }else{
+        await createPostAction(formDataCopy);
+      }
     } catch (error) {
       console.log("Error creating post", error)
     }
